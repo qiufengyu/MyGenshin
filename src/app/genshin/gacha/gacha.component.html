@@ -1,0 +1,65 @@
+<ion-list>
+  <ion-item>
+    <ion-select interface="action-sheet" placeholder="Select pool" (ionChange)="onGachaChange($event)">
+      <ion-select-option *ngFor="let pool of officialPools" value="{{pool.gacha_id}}"
+                         [innerHTML]="pool.title | safe"></ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-list>
+
+<ion-card *ngIf="pool && r5ups.length > 0">
+  <ion-card-content class="r5ups">
+    <div class="r5up-group" *ngFor="let r5 of r5ups">
+      <div class="r5up">
+        <img src="{{r5.item_img}}" alt="r5">
+      </div>
+      <p style="text-align: center">{{r5.item_name}}</p>
+    </div>
+
+    <div class="r4up-group" *ngFor="let r4 of r4ups">
+      <div class="r4up">
+        <img src="{{r4.item_img}}" alt="r4">
+      </div>
+      <p style="text-align: center">{{r4.item_name}}</p>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+
+<ion-button (click)="wish()">祈愿</ion-button>
+<ion-button (click)="wish10()">祈愿十次</ion-button>
+<ion-button color="warning" *ngIf="showWishFull()" (click)="wishFull()">抽到满命！</ion-button>
+<ion-button color="light" (click)="clearAll()">清空</ion-button>
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>本次抽卡结果</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div *ngIf="!wish10Flag">
+      <p>{{wishResult?.name}}</p>
+    </div>
+    <div *ngIf="wish10Flag">
+      <p>{{ wish10String }}</p>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>累计总抽数: {{getAllCount()}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div>
+      <span style="color: gold; margin-right: 1rem" *ngFor="let item of this.getSSRCountByName()">
+        {{item.name}} x {{item.count}}
+      </span>
+    </div>
+    <div>
+      <span style="color: mediumpurple; margin-right: 1rem" *ngFor="let item of this.getSRCountByName()">
+        {{item.name}} x {{item.count}}
+      </span>
+    </div>
+  </ion-card-content>
+</ion-card>
+
